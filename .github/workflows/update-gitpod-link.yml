@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
 
       - name: Switch to main branch
-        run: git checkout main
+        run: git checkout main || git checkout master
 
       - name: Edit README
         run: sed -i 's~svg)](https://gitpod.io/#.*)~svg)](https://gitpod.io/#https://github.com/${{ github.repository }})~g' README.md

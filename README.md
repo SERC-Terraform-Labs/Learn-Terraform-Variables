@@ -1,5 +1,7 @@
 # Learn Terraform variables
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/.../...)
+
 You can use input variables to customize your Terraform configuration with
 values that can be assigned by end users of your configuration. Input variables
 allow users to re-use and customize configuration by providing a consistent

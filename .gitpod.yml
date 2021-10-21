@@ -1,0 +1,10 @@
+image:
+  file: .gitpod.Dockerfile
+
+vscode:
+  extensions:
+    - github.vscode-pull-request-github
+    # - github.classroom
+    - ms-azuretools.vscode-docker
+    - hashicorp.terraform
+    - amazonwebservices.aws-toolkit-vscode

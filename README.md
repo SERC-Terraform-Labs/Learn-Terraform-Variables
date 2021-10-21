@@ -13,3 +13,12 @@ Learn](https://learn.hashicorp.com/tutorials/terraform/variables?in=terraform/co
 Add changes to version control as you go through the steps in the tutorial. This will make it easier to see which configuration settings have changed.
 
 **Warning:** Not sure if all the AWS resources provisioned in this tutorial are covered by the free tier (NAT gateway definitely isn't). There may be some small charges. If you leave resources provisioned and don't `terraform destroy` at the end, there definitely will be charges.
+
+## AWS CLI Credentials
+You will need to add your AWS Access Keys to the AWS CLI client. Configure the AWS CLI from the terminal. Follow the prompts to input your AWS Access Key ID and Secret Access Key.
+
+```bash
+$ aws configure
+```
+
+The configuration process stores your credentials in a file at `~/.aws/credentials` within the Gitpod workspace.

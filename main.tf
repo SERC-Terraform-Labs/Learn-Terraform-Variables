@@ -7,7 +7,36 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-west-2"
+  region                      = "us-west-2"
+  access_key                  = "mock_access_key"
+  secret_key                  = "mock_secret_key"
+  skip_credentials_validation = true
+  skip_metadata_api_check     = true
+  skip_requesting_account_id  = true
+  # s3_use_path_style           = true
+
+  endpoints {
+    apigateway     = "http://localhost:4566"
+    cloudformation = "http://localhost:4566"
+    cloudwatch     = "http://localhost:4566"
+    dynamodb       = "http://localhost:4566"
+    es             = "http://localhost:4566"
+    firehose       = "http://localhost:4566"
+    iam            = "http://localhost:4566"
+    kinesis        = "http://localhost:4566"
+    lambda         = "http://localhost:4566"
+    route53        = "http://localhost:4566"
+    redshift       = "http://localhost:4566"
+    s3             = "http://localhost:4566"
+    secretsmanager = "http://localhost:4566"
+    ses            = "http://localhost:4566"
+    sns            = "http://localhost:4566"
+    sqs            = "http://localhost:4566"
+    ssm            = "http://localhost:4566"
+    stepfunctions  = "http://localhost:4566"
+    sts            = "http://localhost:4566"
+    ec2            = "http://localhost:4566"
+  }
 }
 
 data "aws_availability_zones" "available" {
@@ -70,41 +99,42 @@ resource "random_string" "lb_id" {
   special = false
 }
 
-module "elb_http" {
-  source  = "terraform-aws-modules/elb/aws"
-  version = "2.4.0"
+## ELB mocking not available on free tier of LocalStack. Set output variable directly.
+# module "elb_http" {
+#   source  = "terraform-aws-modules/elb/aws"
+#   version = "2.4.0"
 
-  # Ensure load balancer name is unique
-  name = "lb-${random_string.lb_id.result}-project-alpha-dev"
+#   # Ensure load balancer name is unique
+#   name = "lb-${random_string.lb_id.result}-project-alpha-dev"
 
-  internal = false
+#   internal = false
 
-  security_groups = [module.lb_security_group.this_security_group_id]
-  subnets         = module.vpc.public_subnets
+#   security_groups = [module.lb_security_group.this_security_group_id]
+#   subnets         = module.vpc.public_subnets
 
-  number_of_instances = length(module.ec2_instances.instance_ids)
-  instances           = module.ec2_instances.instance_ids
+#   number_of_instances = length(module.ec2_instances.instance_ids)
+#   instances           = module.ec2_instances.instance_ids
 
-  listener = [{
-    instance_port     = "80"
-    instance_protocol = "HTTP"
-    lb_port           = "80"
-    lb_protocol       = "HTTP"
-  }]
+#   listener = [{
+#     instance_port     = "80"
+#     instance_protocol = "HTTP"
+#     lb_port           = "80"
+#     lb_protocol       = "HTTP"
+#   }]
 
-  health_check = {
-    target              = "HTTP:80/index.html"
-    interval            = 10
-    healthy_threshold   = 3
-    unhealthy_threshold = 10
-    timeout             = 5
-  }
+#   health_check = {
+#     target              = "HTTP:80/index.html"
+#     interval            = 10
+#     healthy_threshold   = 3
+#     unhealthy_threshold = 10
+#     timeout             = 5
+#   }
 
-  tags = {
-    project     = "project-alpha",
-    environment = "dev"
-  }
-}
+#   tags = {
+#     project     = "project-alpha",
+#     environment = "dev"
+#   }
+# }
 
 module "ec2_instances" {
   source = "./modules/aws-instance"
